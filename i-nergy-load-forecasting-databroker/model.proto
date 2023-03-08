@@ -1,0 +1,17 @@
+//Define the used version of proto
+syntax = "proto3";
+
+message Empty {
+
+}
+
+//Define a message to hold the features input by the client
+message Features {
+    repeated double Load = 1 ;
+    repeated string Datetime = 2 ;
+}
+
+//Define the service
+service Databroker {
+    rpc databroker(Empty) returns (Features);
+}
