@@ -1,2 +1,2 @@
-# Ai4euExperiments
-This repository contains the source files of services uploaded to AI4EU experiments.
+# Ai4Experiments
+This repository contains the source files of services uploaded to AI4Experiments.
