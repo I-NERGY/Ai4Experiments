@@ -1,0 +1,18 @@
+//Define the version of proto
+syntax = "proto3";
+
+
+message Input {
+  repeated double Load = 1;
+  repeated string Datetime = 2;
+}
+
+message Prediction {
+  repeated double Load = 1;
+  repeated double Datetime = 2;
+}
+
+
+service PredictLoad {
+  rpc MLflowDartsModelPredict(Input) returns (Prediction) ;
+}

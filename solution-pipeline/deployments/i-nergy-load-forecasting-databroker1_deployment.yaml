@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: i-nergy-load-forecasting-databroker1
+  name: i-nergy-load-forecasting-databroker1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: i-nergy-load-forecasting-databroker1
+  template:
+    metadata:
+      labels:
+        app: i-nergy-load-forecasting-databroker1
+    spec:
+      containers:
+      - image: docker.io/mixalako/load_prediction_databroker_test:latest
+        imagePullPolicy: Always
+        name: i-nergy-load-forecasting-databroker1
+        ports:
+        - containerPort: 8061
+          name: protobuf-api
+        - containerPort: 8062
+          name: webui
+      imagePullSecrets:
+      - name: acumos-registry

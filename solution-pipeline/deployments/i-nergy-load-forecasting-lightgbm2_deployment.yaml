@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: i-nergy-load-forecasting-lightgbm2
+  name: i-nergy-load-forecasting-lightgbm2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: i-nergy-load-forecasting-lightgbm2
+  template:
+    metadata:
+      labels:
+        app: i-nergy-load-forecasting-lightgbm2
+    spec:
+      containers:
+      - image: docker.io/mixalako/load_prediction_test:model_data
+        imagePullPolicy: Always
+        name: i-nergy-load-forecasting-lightgbm2
+        ports:
+        - containerPort: 8061
+          name: protobuf-api
+        - containerPort: 8062
+          name: webui
+      imagePullSecrets:
+      - name: acumos-registry
