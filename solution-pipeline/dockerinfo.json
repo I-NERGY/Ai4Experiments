@@ -1,0 +1,1 @@
+{"docker_info_list": [{"container_name": "i-nergy-load-forecasting-lightgbm2", "ip_address": "i-nergy-load-forecasting-lightgbm2", "port": 30002}, {"container_name": "i-nergy-load-forecasting-databroker1", "ip_address": "i-nergy-load-forecasting-databroker1", "port": 30000}, {"container_name": "orchestrator", "ip_address": "orchestrator", "port": 30004}]}
