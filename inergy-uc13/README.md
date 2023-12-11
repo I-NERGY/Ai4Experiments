@@ -1,7 +1,7 @@
-# [I-NERGY](https://www.i-nergy.eu/) load forecasting
+# [I-NERGY](https://www.i-nergy.eu/) Energy Efficiency Investments Service
 
-I-NERGY load forecasting service is based on a prediction model for electrical load of a boiler room in a large district heating network.
-The implementation makes use of a SARIMA (Seasonal ARIMA) model.  
+I-NERGY energy efficiency investments service is based on a physics-informed model for predicting the electricity consumption of a building based on the heat losses of the envelope.
+
 
 ## Download and installation
 
@@ -27,60 +27,59 @@ In case this service is not combined with another service and therefore it is no
 ```python
 import grpc
 import logging
-import load_prediction_pb2
-import load_prediction_pb2_grpc
+import model_pb2
+import model_pb2_grpc
 import numpy as np
 import pandas as pd
+import json
 
-SAMPLE_DATA = {
-    "days_to_append": 6,
-    "days_ahead": 1,
-    "daily_steps": 24,
-    "news": np.random.normal(3.0, 1.5, 6 * 24), #size parameter = days_to_append * daily_steps
+
+def get_EnergyConsumption(stub):
+    params = {
+"useful_area": 13077,
+"floors": 9,
+"apartments": 252,
+"total_area": 15673,
+"serie": 101,
+"Heavy": 1,
+"Light": 0
 }
-# comment following line when providing real data ("news")
-SAMPLE_DATA['news'] = [x if x > 0 else -x for x in SAMPLE_DATA["news"]]
 
-def get_load_prediction(stub):
-    return stub.GetLoadPrediction(
-        load_prediction_pb2.Input(
-            days_to_append=SAMPLE_DATA["days_to_append"],
-            days_ahead=SAMPLE_DATA["days_ahead"],
-            daily_steps=SAMPLE_DATA["daily_steps"],
-            news=SAMPLE_DATA["news"],
+    return stub.EnergyConsumption(
+        model_pb2.Input(
+            input_message = json.dumps(params)
         )
     )
 
-def run():
-    with grpc.insecure_channel(
-        # update host, port values
-        ("{}:{}").format("localhost", "60259")
-    ) as channel:
-        stub = load_prediction_pb2_grpc.PredictLoadStub(channel)
-        try:
-            response = get_load_prediction(stub)
-        except grpc.RpcError as e:
-            print(f"grpc error occured:{e.details()} , {e.code().name}")
-        except Exception as e:
-            print(f"error occured: {e}")
-        else:
-            df = pd.DataFrame(
-                {"datetime": pd.to_datetime((list(response.datetime))) , "Forecasted Load": list(response.load) },
-            )
-            df['Time'] = pd.to_datetime(df['datetime']).dt.time
-            df = df.drop('datetime',1)
-            print(df)
 
-if __name__ == "__main__":
+def run():
+    with grpc.insecure_channel(port_address) as channel:
+
+        stub = model_pb2_grpc.PredictStub(channel)
+        try:
+            response = get_EnergyConsumption(stub)
+        except grpc.RpcError as e:
+            print(f"grpc error occurred: {e.details()}, {e.code().name}")
+        except Exception as e:
+            print(f"error occurred: {e}")
+        else:
+            output = json.loads(response.output_message)
+            print(output)
+
+if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
     run()
 ```
 
 Users are able to configure the following fields of the request's payload:
 
-* *days_to_append* : provide a zero or positive value corresponding to the number of days that the electricity load has been observed. These observations will be appended to the existing model as new ground truth leading eventually to the model adapting its predictions accordingly.
-* *days_ahead* : provide value equal or greater than 1, referring to the number of days of the desired forecasting horizon.
-* *news* : replace this value with the data concerning the electricity load measured. (size = days to append * daily steps)
+* *useful_area* : provide a positive value corresponding to the useful area of the building.
+* *floors* : provide value equal or greater than 1, referring to the number of floors of the building.
+* *apartments* : provide value equal or greater than 1, referring to the number of apartments of the building.
+* *total_area* : provide a positive value corresponding to the total area of the building.
+* *serie* : replace this value with the serie number of the building.
+* *Heavy* : provide o boolean number (1 or 0) to specify if the building is constructed with heavy materials. When heavy is 1 , light must be 0.
+* *Light* : provide o boolean number (1 or 0) to specify if the building is constructed with light materials. When light is 1 , heavy must be 0.
 
 In order to locally execute client:
 
