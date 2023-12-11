@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+message Empty {
+}
+
+message Input {
+  string date = 1;
+  repeated double load_values = 2;
+}
+
+
+service GetDailyLoad {
+  rpc get_daily_load(Empty) returns (Input);
+}
