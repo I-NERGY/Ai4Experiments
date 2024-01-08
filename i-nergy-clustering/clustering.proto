@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+message Input {
+  string date = 1;
+  repeated double load_values = 2;
+}
+
+message Prediction {
+  string date = 1;
+  int32 cluster = 2;
+
+}
+
+service PredictCluster {
+  rpc GetClusterPrediction(Input) returns (Prediction);
+}

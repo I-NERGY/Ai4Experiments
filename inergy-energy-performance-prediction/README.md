@@ -1,6 +1,6 @@
-# [I-NERGY](https://www.i-nergy.eu/) Energy Performance Prediction Service
+# [I-NERGY](https://www.i-nergy.eu/) Energy Efficiency Investments Service
 
-I-NERGY energy performance prediction service is based on a physics-informed model for predicting the electricity consumption of a building based on the heat losses of the envelope.
+I-NERGY energy efficiency investments service is based on a physics-informed model for predicting the electricity consumption of a building based on the heat losses of the envelope.
 
 
 ## Download and installation
