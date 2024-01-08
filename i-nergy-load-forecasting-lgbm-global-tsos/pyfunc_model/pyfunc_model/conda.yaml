@@ -1,0 +1,12 @@
+channels:
+- defaults
+dependencies:
+- python=3.9.12
+- pip
+- pip:
+  - cloudpickle==2.0.0
+  - darts==0.22.0
+  - pretty_errors==1.2.25
+  - torch==1.11.0+cu102
+  - mlflow==1.25.1
+name: darts_infer_pl_env

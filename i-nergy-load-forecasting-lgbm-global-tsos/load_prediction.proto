@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+message Input {
+  string series_uri  = 1;
+  string hours_ahead = 2;
+  string ts_id_pred = 3;
+}
+
+message Prediction {
+  repeated double datetime = 1;
+  repeated double load =2;  
+}
+
+service PredictLoad {
+  rpc GetLoadPrediction(Input) returns (Prediction);
+}

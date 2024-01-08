@@ -1,0 +1,12 @@
+artifact_path: pyfunc_model
+flavors:
+  python_function:
+    code: code
+    data: data/e5c91372c69b46d7bd48d4025e600361
+    env: conda.yaml
+    loader_module: darts_flavor
+    python_version: 3.9.12
+mlflow_version: 1.25.1
+model_uuid: 9eaa7fc1569d4660a4e29e234e56c256
+run_id: e5c91372c69b46d7bd48d4025e600361
+utc_time_created: '2023-12-07 17:21:08.767098'

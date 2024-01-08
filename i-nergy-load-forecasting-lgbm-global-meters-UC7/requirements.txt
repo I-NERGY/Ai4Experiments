@@ -1,0 +1,15 @@
+grpcio==1.59.2
+grpcio-tools==1.59.2
+protobuf==4.25.1
+cloudpickle==2.0.0
+#torch==1.11.0
+starlette==0.20.0
+mlflow==1.30.0
+pandas==1.5.3
+u8darts[torch]==0.22.0
+pretty-errors==1.2.25
+PyYAML==6.0
+numpy==1.23.5
+click==8.1.2
+lightgbm==3.3.2
+requests_toolbelt
